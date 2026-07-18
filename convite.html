@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Convite Especial</title>
+    <style>
+        /* Estilos Gerais - Fundo Rosa Claro */
+        body { margin: 0; padding: 0; background-color: #fdf0f0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; text-align: center; overflow-x: hidden; }
+
+        /* Capa Inicial (Aparece primeiro) */
+        #capa { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #d63384; color: white; display: flex; justify-content: center; align-items: center; z-index: 20; cursor: pointer; flex-direction: column; }
+        #capa h1 { font-size: 2em; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;}
+        #capa p { font-size: 1.1em; opacity: 0.9; }
+
+        /* Container do Conteúdo Principal (O que aparece depois do clique) */
+        #conteudo { display: none; /* Escondido inicialmente */ flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px 0; box-sizing: border-box;}
+
+        /* A Imagem do Convite */
+        .imagem-convite { width: 95%; max-width: 450px; height: auto; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-bottom: 30px; display: block;}
+
+        /* Área dos Botões (Redondos) */
+        .botoes-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; max-width: 600px; width: 100%; padding: 0 15px; box-sizing: border-box;}
+        
+        .botao-wrapper { display: flex; flex-direction: column; align-items: center; width: 30%; max-width: 100px; }
+
+        .btn-circle { width: 70px; height: 70px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.2s ease; text-decoration: none;}
+        .btn-circle:active { transform: scale(0.95); }
+
+        .btn-label { margin-top: 8px; font-size: 0.85em; color: #555; font-weight: bold; text-transform: uppercase; }
+
+        /* Cores dos Botões */
+        .bg-mapa { background-color: #28a745; } /* Verde */
+        .bg-whats { background-color: #25d366; } /* Verde WhatsApp */
+        .bg-pix { background-color: #6f42c1; }   /* Roxo */
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. TELA INICIAL: Clique para abrir -->
+    <div id="capa" onclick="abrirConvite()">
+        <h1>Você é nosso convvidado!</h1>
+        <p>Toque para abrir o convite</p>
+    </div>
+
+    <!-- 2. TELA PRINCIPAL: Imagem estática + Botões Redondos -->
+    <div id="conteudo">
+        <!-- Substitua 'seu-convite.png' pelo nome da sua imagem -->
+        <img src="seu-convite.png" alt="Convite de Aniversário" class="imagem-convite">
+
+        <div class="botoes-container">
+            <!-- Botão Localização -->
+            <div class="botao-wrapper">
+                <a href="LINK_GOOGLE_MAPS_AQUI" class="btn-circle bg-mapa" target="_blank">📍</a>
+                <span class="btn-label">Local</span>
+            </div>
+
+            <!-- Botão WhatsApp -->
+            <div class="botao-wrapper">
+                <a href="LINK_WHATSAPP_AQUI" class="btn-circle bg-whats" target="_blank">💬</a>
+                <span class="btn-label">Confirmar</span>
+            </div>
+
+            <!-- Botão PIX -->
+            <div class="botao-wrapper">
+                <button class="btn-circle bg-pix" onclick="copiarPix()">💰</button>
+                <span class="btn-label">Presente</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function abrirConvite() {
+            // Esconde a capa e mostra o conteúdo
+            document.getElementById('capa').style.display = 'none';
+            document.getElementById('conteudo').style.display = 'flex';
+        }
+
+        function copiarPix() {
+            const chavePix = "SUA_CHAVE_PIX_AQUI";
+            navigator.clipboard.writeText(chavePix).then(function() {
+                alert('Chave PIX copiada para a área de transferência!');
+            }).catch(function(err) {
+                alert('Falha ao copiar a chave PIX. Tente novamente.');
+            });
+        }
+    </script>
+
+</body>
+</html>

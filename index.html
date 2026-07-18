@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Convite — 50 Anos</title>
+    <title>50 Anos Flashback da Nezia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -166,12 +166,19 @@
             margin-top: -4px;
         }
 
-        .header-convite .subtitulo {
+        .header-convite h2.tema {
+            letter-spacing: 0.12em;
+            font-size: clamp(0.95rem, 3.2vw, 1.4rem);
+            line-height: 1.4;
+        }
+
+        .header-convite .nome-aniversariante {
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
-            font-size: clamp(1rem, 3.5vw, 1.3rem);
-            color: var(--text-muted);
-            margin-top: 16px;
+            font-size: clamp(1.3rem, 4.5vw, 1.8rem);
+            color: var(--gold-dark);
+            margin-top: 8px;
+            letter-spacing: 0.05em;
         }
 
         .linha-dourada {
@@ -270,8 +277,110 @@
         }
 
         .bg-mapa { background: linear-gradient(135deg, #28a745, #1e7e34); }
-        .bg-whats { background: linear-gradient(135deg, #25d366, #128c7e); }
+        .bg-pix { background: linear-gradient(135deg, #6f42c1, #5a32a3); }
         .bg-musica { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); }
+
+        /* ── MODAL PRESENTE / PIX ── */
+        #modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(61, 52, 38, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #modal-overlay.aberto {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-pix {
+            background: white;
+            border-radius: 16px;
+            padding: 32px 28px 24px;
+            max-width: 340px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        #modal-overlay.aberto .modal-pix {
+            transform: scale(1);
+        }
+
+        .modal-pix .modal-icone {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+        }
+
+        .modal-pix h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--gold-dark);
+            margin-bottom: 12px;
+        }
+
+        .modal-pix .modal-texto {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .pix-chave {
+            background: var(--cream);
+            border: 1px dashed var(--gold);
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            word-break: break-all;
+            margin-bottom: 16px;
+            letter-spacing: 0.03em;
+        }
+
+        .btn-copiar {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .btn-copiar:hover { opacity: 0.9; }
+        .btn-copiar:active { transform: scale(0.97); }
+        .btn-copiar.copiado { background: linear-gradient(135deg, #28a745, #1e7e34); }
+
+        .modal-fechar {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px;
+        }
 
         /* ── MENSAGEM FINAL ── */
         .mensagem-final {
@@ -331,10 +440,10 @@
     <div id="capa" onclick="abrirConvite()" role="button" aria-label="Clique para abrir o convite">
         <div class="capa-inner">
             <div class="capa-img-wrapper">
-                <img src="convite.jpeg" alt="Convite 50 Anos">
+                <img src="convite.png" alt="Convite 50 Anos Flashback da Nezia">
             </div>
             <div class="capa-texto">
-                <h1>Você é nosso convidado</h1>
+                <h1>Você é meu convidado</h1>
                 <p>Clique para abrir</p>
                 <div class="capa-icone">✦</div>
             </div>
@@ -345,9 +454,9 @@
     <div id="conteudo">
         <div class="header-convite">
             <div class="numero-destaque">50</div>
-            <h2>Anos</h2>
+            <h2 class="tema">Anos Flashback</h2>
+            <p class="nome-aniversariante">da Nezia</p>
             <div class="linha-dourada"></div>
-            <p class="subtitulo">Uma celebração especial</p>
         </div>
 
         <div class="info-grid">
@@ -355,14 +464,21 @@
                 <div class="info-icone">📅</div>
                 <div class="info-texto">
                     <strong>Data</strong>
-                    <span>Sábado, 15 de Agosto de 2026</span>
+                    <span>Sábado, 22 de Agosto de 2026</span>
                 </div>
             </div>
             <div class="info-card">
                 <div class="info-icone">🕐</div>
                 <div class="info-texto">
                     <strong>Horário</strong>
-                    <span>19h00</span>
+                    <span>20h00</span>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-icone">📍</div>
+                <div class="info-texto">
+                    <strong>Local</strong>
+                    <span>Gold Eventos Campestre<br>Rua Osmilton Teixeira, 519<br>Chácara Recreio Alvorada — Hortolândia, SP</span>
                 </div>
             </div>
             <div class="info-card">
@@ -376,23 +492,21 @@
                 <div class="info-icone">🎉</div>
                 <div class="info-texto">
                     <strong>Sobre a festa</strong>
-                    <span>Venha celebrar conosco este momento tão especial! Haverá jantar, música e muita alegria.</span>
+                    <span>Venha celebrar os 50 anos da Nezia! Uma noite flashback com música e muita alegria.</span>
                 </div>
             </div>
         </div>
 
         <div class="botoes-container">
             <div class="botao-wrapper">
-                <a href="https://maps.google.com/?q=Av.+Paulista,+1000+-+São+Paulo,+SP"
+                <a href="https://maps.google.com/?q=Gold+Eventos+Campestre,+Rua+Osmilton+Teixeira,+519,+Chacara+Recreio+Alvorada,+Hortolandia,+SP"
                    class="btn-circle bg-mapa" target="_blank" rel="noopener noreferrer"
                    aria-label="Ver localização no Google Maps">📍</a>
                 <span class="btn-label">Local</span>
             </div>
             <div class="botao-wrapper">
-                <a href="https://wa.me/5511999999999?text=Olá!+Confirmo+minha+presença+na+festa+de+50+anos!"
-                   class="btn-circle bg-whats" target="_blank" rel="noopener noreferrer"
-                   aria-label="Confirmar presença pelo WhatsApp">💬</a>
-                <span class="btn-label">Confirmar</span>
+                <button class="btn-circle bg-pix" onclick="abrirModalPix()" aria-label="Ver chave PIX para presente">🎁</button>
+                <span class="btn-label">Presente</span>
             </div>
             <div class="botao-wrapper">
                 <button class="btn-circle bg-musica" onclick="toggleMusica()" aria-label="Ligar ou desligar música">🎵</button>
@@ -401,7 +515,7 @@
         </div>
 
         <div class="mensagem-final">
-            <p>Sua presença é o presente mais valioso.<br>Esperamos por você!</p>
+            <p>Sua presença é o presente mais valioso.<br>Esperamos você na festa da Nezia!</p>
         </div>
     </div>
 
@@ -411,6 +525,21 @@
     </audio>
 
     <button id="btn-musica" onclick="toggleMusica()" aria-label="Controle de música">🔇</button>
+
+    <!-- MODAL PIX -->
+    <div id="modal-overlay" onclick="fecharModalPix(event)">
+        <div class="modal-pix" role="dialog" aria-labelledby="modal-titulo">
+            <button class="modal-fechar" onclick="fecharModalPix(event, true)" aria-label="Fechar">&times;</button>
+            <div class="modal-icone">🎁</div>
+            <h3 id="modal-titulo">Lista de Presentes</h3>
+            <p class="modal-texto">
+                Não sabe o que me dar?
+                Relaxa ... o pix sabe! 🤣💰
+            </p>
+            <div class="pix-chave" id="chave-pix">262.88801801-00</div>
+            <button class="btn-copiar" id="btn-copiar" onclick="copiarPix()">Copiar chave PIX</button>
+        </div>
+    </div>
 
     <script>
         const capa = document.getElementById('capa');
@@ -453,6 +582,33 @@
                     btnMusica.textContent = '🔊';
                 }).catch(() => {});
             }
+        }
+
+        const CHAVE_PIX = '262 88801801';
+
+        function abrirModalPix() {
+            document.getElementById('modal-overlay').classList.add('aberto');
+        }
+
+        function fecharModalPix(event, forcar) {
+            if (forcar || event.target === document.getElementById('modal-overlay')) {
+                document.getElementById('modal-overlay').classList.remove('aberto');
+            }
+        }
+
+        function copiarPix() {
+            const btn = document.getElementById('btn-copiar');
+            navigator.clipboard.writeText(CHAVE_PIX).then(() => {
+                btn.textContent = 'Copiado!';
+                btn.classList.add('copiado');
+                setTimeout(() => {
+                    btn.textContent = 'Copiar chave PIX';
+                    btn.classList.remove('copiado');
+                }, 2500);
+            }).catch(() => {
+                btn.textContent = 'Não foi possível copiar';
+                setTimeout(() => { btn.textContent = 'Copiar chave PIX'; }, 2500);
+            });
         }
 
         function lancarConfete() {
