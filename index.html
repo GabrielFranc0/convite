@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Convite — 50 Anos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e8d5a3;
+            --gold-dark: #9a7b2e;
+            --cream: #faf6ee;
+            --cream-dark: #f0e8d8;
+            --text: #3d3426;
+            --text-muted: #7a6f5e;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── CAPA ── */
+        #capa {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at center, #f5ede0 0%, #e8dcc8 100%);
+            cursor: pointer;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        #capa.abrindo {
+            opacity: 0;
+            transform: scale(1.05);
+            pointer-events: none;
+        }
+
+        .capa-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+            padding: 24px;
+            animation: flutuar 3s ease-in-out infinite;
+        }
+
+        @keyframes flutuar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .capa-img-wrapper {
+            position: relative;
+            width: min(85vw, 340px);
+            border-radius: 4px;
+            box-shadow:
+                0 20px 60px rgba(61, 52, 38, 0.25),
+                0 0 0 1px rgba(201, 168, 76, 0.3);
+        }
+
+        .capa-img-wrapper img {
+            width: 100%;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .capa-img-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 4px;
+            box-shadow: inset 0 0 30px rgba(201, 168, 76, 0.15);
+            pointer-events: none;
+        }
+
+        .capa-texto {
+            text-align: center;
+        }
+
+        .capa-texto h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            font-weight: 600;
+            color: var(--gold-dark);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .capa-texto p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            animation: pulsar 2s ease-in-out infinite;
+        }
+
+        @keyframes pulsar {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .capa-icone {
+            font-size: 1.4rem;
+            margin-top: 4px;
+            opacity: 0.5;
+        }
+
+        /* ── CONTEÚDO ── */
+        #conteudo {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px 60px;
+            opacity: 0;
+            transition: opacity 1s ease 0.3s;
+        }
+
+        #conteudo.visivel {
+            display: flex;
+            opacity: 1;
+        }
+
+        .header-convite {
+            text-align: center;
+            margin-bottom: 36px;
+            animation: subir 0.8s ease 0.5s both;
+        }
+
+        @keyframes subir {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .numero-destaque {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(4rem, 18vw, 7rem);
+            font-weight: 600;
+            color: var(--gold);
+            line-height: 1;
+            text-shadow: 0 2px 20px rgba(201, 168, 76, 0.4);
+        }
+
+        .header-convite h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-weight: 400;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: -4px;
+        }
+
+        .header-convite .subtitulo {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 3.5vw, 1.3rem);
+            color: var(--text-muted);
+            margin-top: 16px;
+        }
+
+        .linha-dourada {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 20px auto;
+        }
+
+        /* ── INFO CARDS ── */
+        .info-grid {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+            animation: subir 0.8s ease 0.7s both;
+        }
+
+        .info-card {
+            background: white;
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            border-radius: 12px;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 4px 20px rgba(61, 52, 38, 0.06);
+        }
+
+        .info-icone {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+            width: 44px;
+            text-align: center;
+        }
+
+        .info-texto strong {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin-bottom: 4px;
+        }
+
+        .info-texto span {
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        /* ── BOTÕES REDONDOS ── */
+        .botoes-container {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            animation: subir 0.8s ease 0.9s both;
+        }
+
+        .botao-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-circle {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-circle:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22); }
+        .btn-circle:active { transform: scale(0.95); }
+
+        .btn-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .bg-mapa { background: linear-gradient(135deg, #28a745, #1e7e34); }
+        .bg-whats { background: linear-gradient(135deg, #25d366, #128c7e); }
+        .bg-musica { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); }
+
+        /* ── MENSAGEM FINAL ── */
+        .mensagem-final {
+            margin-top: 48px;
+            text-align: center;
+            max-width: 360px;
+            animation: subir 0.8s ease 1.1s both;
+        }
+
+        .mensagem-final p {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ── CONTROLE DE MÚSICA ── */
+        #btn-musica {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(201, 168, 76, 0.4);
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        #btn-musica.visivel { display: flex; }
+        #btn-musica:active { transform: scale(0.9); }
+
+        .confete {
+            position: fixed;
+            pointer-events: none;
+            z-index: 200;
+            animation: cair 3s ease-in forwards;
+        }
+
+        @keyframes cair {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CAPA -->
+    <div id="capa" onclick="abrirConvite()" role="button" aria-label="Clique para abrir o convite">
+        <div class="capa-inner">
+            <div class="capa-img-wrapper">
+                <img src="convite.jpeg" alt="Convite 50 Anos">
+            </div>
+            <div class="capa-texto">
+                <h1>Você é nosso convidado</h1>
+                <p>Clique para abrir</p>
+                <div class="capa-icone">✦</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO -->
+    <div id="conteudo">
+        <div class="header-convite">
+            <div class="numero-destaque">50</div>
+            <h2>Anos</h2>
+            <div class="linha-dourada"></div>
+            <p class="subtitulo">Uma celebração especial</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-icone">📅</div>
+                <div class="info-texto">
+                    <strong>Data</strong>
+                    <span>Sábado, 15 de Agosto de 2026</span>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-icone">🕐</div>
+                <div class="info-texto">
+                    <strong>Horário</strong>
+                    <span>19h00</span>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-icone">👗</div>
+                <div class="info-texto">
+                    <strong>Traje</strong>
+                    <span>Esporte fino</span>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-icone">🎉</div>
+                <div class="info-texto">
+                    <strong>Sobre a festa</strong>
+                    <span>Venha celebrar conosco este momento tão especial! Haverá jantar, música e muita alegria.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="botoes-container">
+            <div class="botao-wrapper">
+                <a href="https://maps.google.com/?q=Av.+Paulista,+1000+-+São+Paulo,+SP"
+                   class="btn-circle bg-mapa" target="_blank" rel="noopener noreferrer"
+                   aria-label="Ver localização no Google Maps">📍</a>
+                <span class="btn-label">Local</span>
+            </div>
+            <div class="botao-wrapper">
+                <a href="https://wa.me/5511999999999?text=Olá!+Confirmo+minha+presença+na+festa+de+50+anos!"
+                   class="btn-circle bg-whats" target="_blank" rel="noopener noreferrer"
+                   aria-label="Confirmar presença pelo WhatsApp">💬</a>
+                <span class="btn-label">Confirmar</span>
+            </div>
+            <div class="botao-wrapper">
+                <button class="btn-circle bg-musica" onclick="toggleMusica()" aria-label="Ligar ou desligar música">🎵</button>
+                <span class="btn-label">Música</span>
+            </div>
+        </div>
+
+        <div class="mensagem-final">
+            <p>Sua presença é o presente mais valioso.<br>Esperamos por você!</p>
+        </div>
+    </div>
+
+    <!-- ÁUDIO -->
+    <audio id="musica" loop preload="auto">
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="btn-musica" onclick="toggleMusica()" aria-label="Controle de música">🔇</button>
+
+    <script>
+        const capa = document.getElementById('capa');
+        const conteudo = document.getElementById('conteudo');
+        const musica = document.getElementById('musica');
+        const btnMusica = document.getElementById('btn-musica');
+        let tocando = false;
+
+        function abrirConvite() {
+            capa.classList.add('abrindo');
+            conteudo.style.display = 'flex';
+            requestAnimationFrame(() => conteudo.classList.add('visivel'));
+
+            setTimeout(() => {
+                capa.style.display = 'none';
+                iniciarMusica();
+                lancarConfete();
+            }, 800);
+        }
+
+        function iniciarMusica() {
+            musica.play().then(() => {
+                tocando = true;
+                btnMusica.textContent = '🔊';
+                btnMusica.classList.add('visivel');
+            }).catch(() => {
+                btnMusica.textContent = '🔇';
+                btnMusica.classList.add('visivel');
+            });
+        }
+
+        function toggleMusica() {
+            if (tocando) {
+                musica.pause();
+                tocando = false;
+                btnMusica.textContent = '🔇';
+            } else {
+                musica.play().then(() => {
+                    tocando = true;
+                    btnMusica.textContent = '🔊';
+                }).catch(() => {});
+            }
+        }
+
+        function lancarConfete() {
+            const cores = ['#c9a84c', '#e8d5a3', '#f5c842', '#fff8e7', '#d4af37'];
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const el = document.createElement('div');
+                    el.className = 'confete';
+                    el.style.cssText = `
+                        left: ${Math.random() * 100}vw;
+                        top: -10px;
+                        width: ${6 + Math.random() * 8}px;
+                        height: ${6 + Math.random() * 8}px;
+                        background: ${cores[Math.floor(Math.random() * cores.length)]};
+                        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+                        animation-duration: ${2 + Math.random() * 2}s;
+                    `;
+                    document.body.appendChild(el);
+                    setTimeout(() => el.remove(), 4000);
+                }, i * 60);
+            }
+        }
+    </script>
+</body>
+</html>
