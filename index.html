@@ -6,7 +6,7 @@
     <title>50 Anos Flashback da Nezia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -18,6 +18,9 @@
             --cream-dark: #f0e8d8;
             --text: #3d3426;
             --text-muted: #7a6f5e;
+            --scene-side-left: clamp(90px, 28vw, 158px);
+            --scene-side-right: clamp(90px, 28vw, 158px);
+            --disco-size: clamp(90px, 28vw, 158px);
         }
 
         body {
@@ -121,14 +124,45 @@
         }
 
         /* ── CONTEÚDO ── */
+        body.conteudo-aberto {
+            background: var(--cream);
+            color: var(--text);
+        }
+
         #conteudo {
             display: none;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
-            padding: 40px 20px 60px;
+            padding: 24px 16px 60px;
             opacity: 0;
             transition: opacity 1s ease 0.3s;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: visible;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(255, 248, 220, 0.7) 0%, transparent 55%),
+                radial-gradient(ellipse at 15% 25%, rgba(201, 168, 76, 0.22) 0%, transparent 45%),
+                radial-gradient(ellipse at 85% 30%, rgba(232, 213, 163, 0.25) 0%, transparent 45%),
+                radial-gradient(ellipse at 50% 85%, rgba(201, 168, 76, 0.18) 0%, transparent 50%),
+                radial-gradient(ellipse at center, #faf3e4 0%, #efe3cc 100%);
+        }
+
+        #conteudo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.45) 0%, transparent 35%),
+                radial-gradient(circle at 70% 25%, rgba(255, 248, 220, 0.35) 0%, transparent 30%);
+            pointer-events: none;
+            animation: fundo-brilho 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes fundo-brilho {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
         }
 
         #conteudo.visivel {
@@ -136,9 +170,205 @@
             opacity: 1;
         }
 
-        .header-convite {
+        .sparkle {
+            position: absolute;
+            --sparkle-size: 10px;
+            width: var(--sparkle-size);
+            height: var(--sparkle-size);
+            pointer-events: none;
+            animation: brilhar 3s ease-in-out infinite;
+        }
+
+        .sparkle::before,
+        .sparkle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            box-shadow:
+                0 0 4px 1px rgba(255, 255, 255, 1),
+                0 0 10px 2px rgba(255, 255, 255, 0.7),
+                0 0 18px 3px rgba(255, 255, 255, 0.25);
+        }
+
+        .sparkle::before {
+            width: 1px;
+            height: calc(var(--sparkle-size) * 1.6);
+        }
+
+        .sparkle::after {
+            width: calc(var(--sparkle-size) * 1.6);
+            height: 1px;
+        }
+
+        @keyframes brilhar {
+            0%, 100% { opacity: 0.2; transform: scale(0.8) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(45deg); }
+        }
+
+        .convite-scene-wrap {
+            position: relative;
+            z-index: 2;
+            width: min(100%, 680px);
+            max-width: calc(100vw - 32px);
+            margin-top: clamp(16px, 4vw, 28px);
+            margin-bottom: clamp(16px, 4vw, 28px);
+            overflow: visible;
+        }
+
+        .convite-scene {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            gap: clamp(-48px, -12vw, -24px);
+            width: 100%;
+        }
+
+        .lado-esquerdo {
+            position: relative;
+            flex-shrink: 0;
+            display: flex;
+            align-items: stretch;
+            width: var(--scene-side-left);
+            overflow: visible;
+            z-index: 3;
+        }
+
+        .lado-esquerdo .disco-lado {
+            width: 100%;
+        }
+
+        .disco-lado {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            flex-shrink: 0;
+            width: var(--scene-side-right);
+            padding: 4px 0;
+            z-index: 3;
+        }
+
+        .disco-ball {
+            position: relative;
+            pointer-events: none;
+            width: var(--disco-size);
+            height: var(--disco-size);
+            flex-shrink: 0;
+        }
+
+        .disco-lado .disco-ball:nth-child(2) {
+            width: calc(var(--disco-size) * 0.92);
+            height: calc(var(--disco-size) * 0.92);
+        }
+
+        .disco-ball::after {
+            content: '';
+            position: absolute;
+            inset: -22%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.65) 0%, rgba(220, 220, 230, 0.25) 35%, transparent 72%);
+            z-index: -1;
+            animation: disco-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes disco-glow {
+            0% { opacity: 0.7; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .disco-ball img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            mix-blend-mode: lighten;
+            filter: brightness(1.2) contrast(1.1) drop-shadow(0 0 22px rgba(255, 255, 255, 0.45)) drop-shadow(0 0 40px rgba(200, 200, 210, 0.25));
+        }
+
+        .disco-lado-esq .disco-ball:nth-child(1) {
+            --rot: -8deg;
+            --tx: 15%;
+            animation: balancar-esq 4s ease-in-out infinite;
+        }
+
+        .disco-lado-esq .disco-ball:nth-child(2) {
+            --rot: 4deg;
+            --tx: 22%;
+            animation: balancar-esq 4.6s ease-in-out 0.4s infinite;
+        }
+
+        .disco-lado-esq .disco-ball:nth-child(3) {
+            --rot: -12deg;
+            --tx: 13%;
+            animation: balancar-esq 5.2s ease-in-out 0.8s infinite;
+        }
+
+        .disco-lado-dir .disco-ball:nth-child(1) {
+            --rot: 8deg;
+            --tx: -300%;
+            animation: balancar-dir 4.2s ease-in-out infinite;
+        }
+
+        .disco-lado-dir .disco-ball:nth-child(2) {
+            --rot: 2deg;
+            --tx: -50%;
+            animation: balancar-dir 4.8s ease-in-out 0.4s infinite;
+        }
+
+        .disco-lado-dir .disco-ball:nth-child(3) {
+            --rot: 2deg;
+            --tx: -300%;
+            animation: balancar-dir 5.4s ease-in-out 0.8s infinite;
+        }
+
+        .disco-lado-dir .disco-ball:nth-child(4) {
+            --rot: 8deg;
+            --tx: -50%;
+            animation: balancar-dir 5.4s ease-in-out 0.8s infinite;
+        }
+
+        @keyframes balancar-esq {
+            0%, 100% { transform: rotate(var(--rot)) translateX(var(--tx)) translateY(0); }
+            50% { transform: rotate(calc(var(--rot) + 4deg)) translateX(calc(var(--tx) + 4%)) translateY(-4px); }
+        }
+
+        @keyframes balancar-dir {
+            0%, 100% { transform: rotate(var(--rot)) translateX(var(--tx)) translateY(0); }
+            50% { transform: rotate(calc(var(--rot) - 4deg)) translateX(calc(var(--tx) - 4%)) translateY(-4px); }
+        }
+
+        .foto-nezia {
+            position: absolute;
+            bottom: -2%;
+            left: 30%;
+            transform: translateX(-38%);
+            height: 112%;
+            width: auto;
+            max-width: 240%;
+            z-index: 5;
+            pointer-events: none;
+            object-fit: contain;
+            object-position: bottom center;
+            filter: drop-shadow(0 10px 28px rgba(61, 52, 38, 0.18));
+        }
+
+        .convite-frame {
+            position: relative;
+            z-index: 6;
+            flex: 1 1 0;
+            min-width: 0;
+            max-width: 380px;
+            border: 1.5px solid rgba(201, 168, 76, 0.45);
+            padding: clamp(22px, 5vw, 36px) clamp(14px, 4vw, 24px) clamp(20px, 4.5vw, 32px);
             text-align: center;
-            margin-bottom: 36px;
+            background: rgba(255, 255, 255, 0.55);
+            box-shadow:
+                0 8px 40px rgba(61, 52, 38, 0.12),
+                inset 0 0 60px rgba(201, 168, 76, 0.04);
             animation: subir 0.8s ease 0.5s both;
         }
 
@@ -147,45 +377,35 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .numero-destaque {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(4rem, 18vw, 7rem);
-            font-weight: 600;
-            color: var(--gold);
-            line-height: 1;
-            text-shadow: 0 2px 20px rgba(201, 168, 76, 0.4);
-        }
-
-        .header-convite h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            font-weight: 400;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-top: -4px;
-        }
-
-        .tema-cursivo {
+        .nome-principal {
             font-family: 'Great Vibes', 'Pinyon Script', cursive;
-            font-size: clamp(1.9rem, 6.5vw, 2.8rem);
+            font-size: clamp(2.8rem, 10vw, 3.8rem);
             font-weight: 400;
-            line-height: 1.2;
-            margin-top: 6px;
+            line-height: 1.1;
+            margin-bottom: 4px;
             background: linear-gradient(135deg, #b8922e 0%, #e8d5a3 40%, #c9a84c 70%, #9a7b2e 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: none;
             filter: drop-shadow(0 2px 8px rgba(201, 168, 76, 0.3));
         }
 
-        .nome-cursivo {
+        .anos-titulo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            font-weight: 600;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin-bottom: 6px;
+        }
+
+        .tema-flashback {
             font-family: 'Great Vibes', 'Pinyon Script', cursive;
-            font-size: clamp(1.6rem, 5.5vw, 2.3rem);
+            font-size: clamp(1.6rem, 5.5vw, 2.2rem);
             font-weight: 400;
             line-height: 1.2;
-            margin-top: 2px;
+            margin-bottom: 12px;
             background: linear-gradient(135deg, #b8922e 0%, #e8d5a3 40%, #c9a84c 70%, #9a7b2e 100%);
             -webkit-background-clip: text;
             background-clip: text;
@@ -193,64 +413,101 @@
             filter: drop-shadow(0 2px 6px rgba(201, 168, 76, 0.25));
         }
 
-        .linha-dourada {
-            width: 60px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            margin: 20px auto;
+        .tagline {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.65rem, 2.5vw, 0.78rem);
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            line-height: 1.5;
         }
 
-        /* ── INFO CARDS ── */
-        .info-grid {
-            width: 100%;
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 40px;
-            animation: subir 0.8s ease 0.7s both;
-        }
-
-        .info-card {
-            background: white;
-            border: 1px solid rgba(201, 168, 76, 0.25);
-            border-radius: 12px;
-            padding: 18px 22px;
+        .data-horario {
             display: flex;
             align-items: center;
-            gap: 16px;
-            box-shadow: 0 4px 20px rgba(61, 52, 38, 0.06);
-        }
-
-        .info-icone {
-            font-size: 1.6rem;
-            flex-shrink: 0;
-            width: 44px;
-            text-align: center;
-        }
-
-        .info-texto strong {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--gold-dark);
-            margin-bottom: 4px;
-        }
-
-        .info-texto span {
-            font-size: 0.9rem;
-            color: var(--text);
-            line-height: 1.4;
-        }
-
-        /* ── BOTÕES REDONDOS ── */
-        .botoes-container {
-            display: flex;
             justify-content: center;
-            gap: 28px;
-            flex-wrap: wrap;
+            gap: 0;
+            margin-bottom: 20px;
+        }
+
+        .data-bloco, .hora-bloco {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .data-numero {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 14vw, 5rem);
+            font-weight: 600;
+            color: var(--gold);
+            line-height: 1;
+            text-shadow: 0 2px 20px rgba(201, 168, 76, 0.3);
+        }
+
+        .data-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.6rem, 2.2vw, 0.72rem);
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .data-separador {
+            width: 1px;
+            height: clamp(60px, 18vw, 80px);
+            background: linear-gradient(180deg, transparent, var(--gold), transparent);
+            margin: 0 clamp(16px, 5vw, 28px);
+        }
+
+        .local-nome {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.65rem, 2.4vw, 0.78rem);
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: none;
+            color: var(--text);
+            margin-bottom: 28px;
+            line-height: 1.6;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .instrucao-botoes {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.6rem, 2.2vw, 0.72rem);
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .instrucao-botoes .mao {
+            display: block;
+            font-size: 1.2rem;
+            margin-top: 4px;
+            animation: apontar 1.5s ease-in-out infinite;
+        }
+
+        @keyframes apontar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(4px); }
+        }
+
+        /* ── BOTÕES DOURADOS ── */
+        .botoes-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 24px;
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
             animation: subir 0.8s ease 0.9s both;
         }
 
@@ -258,42 +515,59 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .btn-circle {
-            width: 72px;
-            height: 72px;
+            width: clamp(64px, 18vw, 76px);
+            height: clamp(64px, 18vw, 76px);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.8rem;
             border: none;
             cursor: pointer;
             text-decoration: none;
             color: white;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+            background:
+                radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 40%),
+                linear-gradient(145deg, var(--gold-light) 0%, var(--gold) 40%, var(--gold-dark) 100%);
+            box-shadow:
+                0 4px 15px rgba(154, 123, 46, 0.35),
+                inset 0 2px 4px rgba(255, 255, 255, 0.4),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.15);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .btn-circle:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22); }
+        .btn-circle svg {
+            width: 28px;
+            height: 28px;
+            fill: #fff;
+        }
+
+        .btn-circle:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 20px rgba(154, 123, 46, 0.45),
+                inset 0 2px 4px rgba(255, 255, 255, 0.5),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+        }
+
         .btn-circle:active { transform: scale(0.95); }
 
         .btn-label {
-            font-size: 0.72rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.55rem, 2vw, 0.65rem);
             font-weight: 600;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             color: var(--text-muted);
+            text-align: center;
+            line-height: 1.3;
+            max-width: 100px;
         }
 
-        .bg-mapa { background: linear-gradient(135deg, #28a745, #1e7e34); }
-        .bg-whats { background: linear-gradient(135deg, #25d366, #128c7e); }
-        .bg-pix { background: linear-gradient(135deg, #6f42c1, #5a32a3); }
-        .bg-musica { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); }
-
-        /* ── MODAL PRESENTE / PIX ── */
+        /* ── MODAL ── */
         #modal-overlay {
             position: fixed;
             inset: 0;
@@ -324,6 +598,7 @@
             transform: scale(0.9);
             transition: transform 0.3s ease;
             position: relative;
+            color: var(--text);
         }
 
         #modal-overlay.aberto .modal-pix {
@@ -338,6 +613,7 @@
         .modal-pix h3 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.5rem;
+            font-weight: 600;
             color: var(--gold-dark);
             margin-bottom: 12px;
         }
@@ -347,6 +623,35 @@
             color: var(--text-muted);
             line-height: 1.6;
             margin-bottom: 20px;
+        }
+
+        .modal-pix .modal-info-item {
+            text-align: left;
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+        }
+
+        .modal-pix .modal-info-item:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .modal-pix .modal-info-item strong {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin-bottom: 4px;
+        }
+
+        .modal-pix .modal-info-item span {
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.5;
         }
 
         .pix-chave {
@@ -380,7 +685,7 @@
 
         .btn-copiar:hover { opacity: 0.9; }
         .btn-copiar:active { transform: scale(0.97); }
-        .btn-copiar.copiado { background: linear-gradient(135deg, #28a745, #1e7e34); }
+        .btn-copiar.copiado { background: linear-gradient(135deg, #28a745, #1e7e34); color: #fff; }
 
         .modal-fechar {
             position: absolute;
@@ -393,22 +698,6 @@
             cursor: pointer;
             line-height: 1;
             padding: 4px;
-        }
-
-        /* ── MENSAGEM FINAL ── */
-        .mensagem-final {
-            margin-top: 48px;
-            text-align: center;
-            max-width: 360px;
-            animation: subir 0.8s ease 1.1s both;
-        }
-
-        .mensagem-final p {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            line-height: 1.7;
         }
 
         /* ── CONTROLE DE MÚSICA ── */
@@ -455,6 +744,67 @@
             0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
+
+        @media (max-width: 480px) {
+            :root {
+                --scene-side-left: clamp(72px, 21vw, 108px);
+                --scene-side-right: clamp(44px, 11vw, 68px);
+                --disco-size: clamp(78px, 22vw, 118px);
+            }
+
+            #conteudo {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .convite-scene-wrap {
+                max-width: calc(100vw - 20px);
+            }
+
+            .convite-scene {
+                gap: clamp(-32px, -8vw, -16px);
+            }
+
+            .convite-frame {
+                flex: 1 1 auto;
+                max-width: none;
+                padding: clamp(20px, 4.5vw, 28px) clamp(12px, 3.5vw, 18px) clamp(18px, 4vw, 24px);
+            }
+
+            .tagline {
+                margin-bottom: 20px;
+            }
+
+            .local-nome {
+                margin-bottom: 20px;
+            }
+
+            .botoes-container {
+                gap: 16px 14px;
+                max-width: 100%;
+            }
+
+            .btn-label {
+                max-width: none;
+                font-size: clamp(0.5rem, 2.4vw, 0.62rem);
+            }
+        }
+
+        @media (max-width: 360px) {
+            :root {
+                --scene-side-left: clamp(64px, 19vw, 96px);
+                --scene-side-right: clamp(38px, 10vw, 58px);
+                --disco-size: clamp(70px, 20vw, 100px);
+            }
+
+            .anos-titulo {
+                letter-spacing: 0.25em;
+            }
+
+            .data-separador {
+                margin: 0 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -475,72 +825,71 @@
 
     <!-- CONTEÚDO -->
     <div id="conteudo">
-        <div class="header-convite">
-            <div class="numero-destaque">50</div>
-            <h2 class="tema-cursivo">Anos Flashback Chic</h2>
-            <p class="nome-cursivo">da Nezia</p>
-            <div class="linha-dourada"></div>
-        </div>
+        <div class="convite-scene-wrap">
+        <div class="convite-scene">
+            <div class="lado-esquerdo">
+                <img class="foto-nezia" src="nezia.png" alt="Nezia">
+            </div>
 
-        <div class="info-grid">
-            <div class="info-card">
-                <div class="info-icone">📅</div>
-                <div class="info-texto">
-                    <strong>Data</strong>
-                    <span>Sábado, 22 de Agosto de 2026</span>
+            <div class="convite-frame">
+            <h1 class="nome-principal">Nezia</h1>
+            <p class="anos-titulo">50 Anos</p>
+            <p class="tema-flashback">Flashback Chique</p>
+            <p class="tagline">A pista de dança te espera!</p>
+
+            <div class="data-horario">
+                <div class="data-bloco">
+                    <span class="data-numero">22</span>
+                    <span class="data-label">Agosto</span>
+                </div>
+                <div class="data-separador"></div>
+                <div class="hora-bloco">
+                    <span class="data-numero">20</span>
+                    <span class="data-label">Horas</span>
                 </div>
             </div>
-            <div class="info-card">
-                <div class="info-icone">🕐</div>
-                <div class="info-texto">
-                    <strong>Horário</strong>
-                    <span>20h00</span>
+
+            <p class="local-nome">Espaço Gold Campestre</p>
+
+            <div class="botoes-container">
+                <div class="botao-wrapper">
+                    <a href="https://www.google.com/maps/place/Espa%C3%A7o+Gold+Campestre/@-22.8419794,-47.2386128,17z/data=!3m1!4b1!4m6!3m5!1s0x94c8bd0057c20b83:0x472f7fb5d609ad2c!8m2!3d-22.8419794!4d-47.2386128!16s%2Fg%2F11lz4tj2wr?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D"
+                       class="btn-circle" target="_blank" rel="noopener noreferrer"
+                       aria-label="Ver localização no Google Maps">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    </a>
+                    <span class="btn-label">Local</span>
+                </div>
+                <div class="botao-wrapper">
+                    <a href="https://wa.me/5519992948612?text=Ol%C3%A1!%20Gostaria%20de%20confirmar%20minha%20presen%C3%A7a%20na%20festa%20dos%2050%20anos%20da%20Nezia!"
+                       class="btn-circle" target="_blank" rel="noopener noreferrer"
+                       aria-label="Confirmar presença pelo WhatsApp">
+                        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    </a>
+                    <span class="btn-label">Confirmar Presença</span>
+                </div>
+                <div class="botao-wrapper">
+                    <button class="btn-circle" onclick="abrirModalPix()" aria-label="Ver chave PIX para presente">
+                        <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 12 7.4l3.38 4.6L17 10.83 14.92 8H20v6z"/></svg>
+                    </button>
+                    <span class="btn-label">Sugestões de Presente</span>
+                </div>
+                <div class="botao-wrapper">
+                    <button class="btn-circle" onclick="abrirModalManual()" aria-label="Ver manual do convidado">
+                        <svg viewBox="0 0 24 24"><path d="M12 2c-1.1 0-2 .9-2 2v1.07C7.06 5.51 5 7.9 5 11v1c0 .55.45 1 1 1h1.17C6.4 14.9 5 17.29 5 20c0 .55.45 1 1 1h12c.55 0 1-.45 1-1 0-2.71-1.4-5.1-3.17-6.9H17c.55 0 1-.45 1-1v-1c0-3.1-2.06-5.49-5-5.93V4c0-1.1-.9-2-2-2zm0 4c1.66 0 3 1.34 3 3v1H9V9c0-1.66 1.34-3 3-3z"/></svg>
+                    </button>
+                    <span class="btn-label">Manual do Convidado</span>
                 </div>
             </div>
-            <div class="info-card">
-                <div class="info-icone">📍</div>
-                <div class="info-texto">
-                    <strong>Local</strong>
-                    <span>Gold Eventos Campestre<br>Rua Osmilton Teixeira, 519<br>Chácara Recreio Alvorada — Hortolândia, SP</span>
-                </div>
             </div>
-            <div class="info-card">
-                <div class="info-icone">👗</div>
-                <div class="info-texto">
-                    <strong>Traje</strong>
-                    <span>Esporte fino</span>
-                </div>
-            </div>
-            <div class="info-card">
-                <div class="info-icone">🎉</div>
-                <div class="info-texto">
-                    <strong>Sobre a festa</strong>
-                    <span>Venha celebrar os 50 anos da Nezia! Uma noite flashback com música e muita alegria.</span>
-                </div>
+
+            <div class="disco-lado disco-lado-dir" aria-hidden="true">
+                <div class="disco-ball"><img src="disco-ball.png?v=2" alt=""></div>
+                <div class="disco-ball"><img src="disco-ball.png?v=2" alt=""></div>
+                <div class="disco-ball"><img src="disco-ball.png?v=2" alt=""></div>
+                <div class="disco-ball"><img src="disco-ball.png?v=2" alt=""></div>
             </div>
         </div>
-
-        <div class="botoes-container">
-            <div class="botao-wrapper">
-                <a href="https://maps.google.com/?q=Gold+Eventos+Campestre,+Rua+Osmilton+Teixeira,+519,+Chacara+Recreio+Alvorada,+Hortolandia,+SP"
-                   class="btn-circle bg-mapa" target="_blank" rel="noopener noreferrer"
-                   aria-label="Ver localização no Google Maps">📍</a>
-                <span class="btn-label">Local</span>
-            </div>
-            <div class="botao-wrapper">
-                <a href="https://wa.me/5519992948612?text=Ol%C3%A1!%20Gostaria%20de%20confirmar%20minha%20presen%C3%A7a%20na%20festa%20dos%2050%20anos%20da%20Nezia!"
-                   class="btn-circle bg-whats" target="_blank" rel="noopener noreferrer"
-                   aria-label="Confirmar presença pelo WhatsApp">💬</a>
-                <span class="btn-label">Presença</span>
-            </div>
-            <div class="botao-wrapper">
-                <button class="btn-circle bg-pix" onclick="abrirModalPix()" aria-label="Ver chave PIX para presente">🎁</button>
-                <span class="btn-label">Presente</span>
-            </div>
-        </div>
-
-        <div class="mensagem-final">
-            <p>Sua presença é o presente mais valioso.<br>Esperamos você na festa da Nezia!</p>
         </div>
     </div>
 
@@ -560,17 +909,19 @@
     <button id="btn-musica" onclick="toggleMusica()" aria-label="Controle de música">🔇</button>
 
     <!-- MODAL PIX -->
-    <div id="modal-overlay" onclick="fecharModalPix(event)">
+    <div id="modal-overlay" onclick="fecharModal(event)">
         <div class="modal-pix" role="dialog" aria-labelledby="modal-titulo">
-            <button class="modal-fechar" onclick="fecharModalPix(event, true)" aria-label="Fechar">&times;</button>
-            <div class="modal-icone">🎁</div>
-            <h3 id="modal-titulo">Lista de Presentes</h3>
-            <p class="modal-texto">
-                Não sabe o que me dar?
-                Relaxa ... o pix sabe! 🤣💰
-            </p>
-            <div class="pix-chave" id="chave-pix">262.88801801-00</div>
-            <button class="btn-copiar" id="btn-copiar" onclick="copiarPix()">Copiar chave PIX</button>
+            <button class="modal-fechar" onclick="fecharModal(event, true)" aria-label="Fechar">&times;</button>
+            <div class="modal-icone" id="modal-icone">🎁</div>
+            <h3 id="modal-titulo">Sugestões de Presente</h3>
+            <div id="modal-corpo">
+                <p class="modal-texto">
+                    Não sabe o que me dar?<br>
+                    Relaxa ... o pix sabe! 🤣💰
+                </p>
+                <div class="pix-chave" id="chave-pix">262.88801801-00</div>
+                <button class="btn-copiar" id="btn-copiar" onclick="copiarPix()">Copiar chave PIX</button>
+            </div>
         </div>
     </div>
 
@@ -611,6 +962,7 @@
 
         function abrirConvite() {
             capa.classList.add('abrindo');
+            document.body.classList.add('conteudo-aberto');
             conteudo.style.display = 'flex';
             requestAnimationFrame(() => conteudo.classList.add('visivel'));
 
@@ -618,7 +970,23 @@
                 capa.style.display = 'none';
                 iniciarMusica();
                 iniciarConfeteContinuo();
+                criarSparkles();
             }, 800);
+        }
+
+        function criarSparkles() {
+            const container = conteudo;
+            for (let i = 0; i < 45; i++) {
+                const s = document.createElement('div');
+                s.className = 'sparkle';
+                const size = 6 + Math.random() * 10;
+                s.style.setProperty('--sparkle-size', size + 'px');
+                s.style.left = Math.random() * 100 + '%';
+                s.style.top = Math.random() * 100 + '%';
+                s.style.animationDelay = Math.random() * 3 + 's';
+                s.style.animationDuration = (2 + Math.random() * 2) + 's';
+                container.appendChild(s);
+            }
         }
 
         function iniciarMusica() {
@@ -646,11 +1014,45 @@
 
         const CHAVE_PIX = '262 88801801';
 
+        const CONTEUDO_PIX = `
+            <p class="modal-texto">
+                Não sabe o que me dar?<br>
+                Relaxa ... o pix sabe! 🤣💰
+            </p>
+            <div class="pix-chave" id="chave-pix">262.88801801-00</div>
+            <button class="btn-copiar" id="btn-copiar" onclick="copiarPix()">Copiar chave PIX</button>
+        `;
+
+        const CONTEUDO_MANUAL = `
+            <div class="modal-info-item">
+                <strong>Traje</strong>
+                <span>Esporte fino</span>
+            </div>
+            <div class="modal-info-item">
+                <strong>Endereço</strong>
+                <span>1682, R. Osmílton Teixeira, 519 - Chácara Recreio Alvorada, Hortolândia - SP, 13183-751</span>
+            </div>
+            <div class="modal-info-item">
+                <strong>Sobre a festa</strong>
+                <span>Venha celebrar os 50 anos da Nezia! Uma noite flashback com música e muita alegria. Sua presença é o presente mais valioso!</span>
+            </div>
+        `;
+
         function abrirModalPix() {
+            document.getElementById('modal-icone').textContent = '🎁';
+            document.getElementById('modal-titulo').textContent = 'Sugestões de Presente';
+            document.getElementById('modal-corpo').innerHTML = CONTEUDO_PIX;
             document.getElementById('modal-overlay').classList.add('aberto');
         }
 
-        function fecharModalPix(event, forcar) {
+        function abrirModalManual() {
+            document.getElementById('modal-icone').textContent = '👗';
+            document.getElementById('modal-titulo').textContent = 'Manual do Convidado';
+            document.getElementById('modal-corpo').innerHTML = CONTEUDO_MANUAL;
+            document.getElementById('modal-overlay').classList.add('aberto');
+        }
+
+        function fecharModal(event, forcar) {
             if (forcar || event.target === document.getElementById('modal-overlay')) {
                 document.getElementById('modal-overlay').classList.remove('aberto');
             }
