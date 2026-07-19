@@ -6,7 +6,7 @@
     <title>50 Anos Flashback da Nezia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Pinyon+Script&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -166,19 +166,31 @@
             margin-top: -4px;
         }
 
-        .header-convite h2.tema {
-            letter-spacing: 0.12em;
-            font-size: clamp(0.95rem, 3.2vw, 1.4rem);
-            line-height: 1.4;
+        .tema-cursivo {
+            font-family: 'Great Vibes', 'Pinyon Script', cursive;
+            font-size: clamp(1.9rem, 6.5vw, 2.8rem);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-top: 6px;
+            background: linear-gradient(135deg, #b8922e 0%, #e8d5a3 40%, #c9a84c 70%, #9a7b2e 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+            filter: drop-shadow(0 2px 8px rgba(201, 168, 76, 0.3));
         }
 
-        .header-convite .nome-aniversariante {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: clamp(1.3rem, 4.5vw, 1.8rem);
-            color: var(--gold-dark);
-            margin-top: 8px;
-            letter-spacing: 0.05em;
+        .nome-cursivo {
+            font-family: 'Great Vibes', 'Pinyon Script', cursive;
+            font-size: clamp(1.6rem, 5.5vw, 2.3rem);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-top: 2px;
+            background: linear-gradient(135deg, #b8922e 0%, #e8d5a3 40%, #c9a84c 70%, #9a7b2e 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 6px rgba(201, 168, 76, 0.25));
         }
 
         .linha-dourada {
@@ -277,6 +289,7 @@
         }
 
         .bg-mapa { background: linear-gradient(135deg, #28a745, #1e7e34); }
+        .bg-whats { background: linear-gradient(135deg, #25d366, #128c7e); }
         .bg-pix { background: linear-gradient(135deg, #6f42c1, #5a32a3); }
         .bg-musica { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); }
 
@@ -421,6 +434,16 @@
         #btn-musica.visivel { display: flex; }
         #btn-musica:active { transform: scale(0.9); }
 
+        #sc-player-container {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .confete {
             position: fixed;
             pointer-events: none;
@@ -454,8 +477,8 @@
     <div id="conteudo">
         <div class="header-convite">
             <div class="numero-destaque">50</div>
-            <h2 class="tema">Anos Flashback</h2>
-            <p class="nome-aniversariante">da Nezia</p>
+            <h2 class="tema-cursivo">Anos Flashback Chic</h2>
+            <p class="nome-cursivo">da Nezia</p>
             <div class="linha-dourada"></div>
         </div>
 
@@ -505,12 +528,14 @@
                 <span class="btn-label">Local</span>
             </div>
             <div class="botao-wrapper">
-                <button class="btn-circle bg-pix" onclick="abrirModalPix()" aria-label="Ver chave PIX para presente">🎁</button>
-                <span class="btn-label">Presente</span>
+                <a href="https://wa.me/5519992948612?text=Ol%C3%A1!%20Gostaria%20de%20confirmar%20minha%20presen%C3%A7a%20na%20festa%20dos%2050%20anos%20da%20Nezia!"
+                   class="btn-circle bg-whats" target="_blank" rel="noopener noreferrer"
+                   aria-label="Confirmar presença pelo WhatsApp">💬</a>
+                <span class="btn-label">Presença</span>
             </div>
             <div class="botao-wrapper">
-                <button class="btn-circle bg-musica" onclick="toggleMusica()" aria-label="Ligar ou desligar música">🎵</button>
-                <span class="btn-label">Música</span>
+                <button class="btn-circle bg-pix" onclick="abrirModalPix()" aria-label="Ver chave PIX para presente">🎁</button>
+                <span class="btn-label">Presente</span>
             </div>
         </div>
 
@@ -519,10 +544,18 @@
         </div>
     </div>
 
-    <!-- ÁUDIO -->
-    <audio id="musica" loop preload="auto">
-        <source src="musica.mp3" type="audio/mpeg">
-    </audio>
+    <!-- SOUNDCLOUD -->
+    <div id="sc-player-container" aria-hidden="true">
+        <iframe id="sc-player"
+                title="Música de fundo"
+                width="100%"
+                height="166"
+                scrolling="no"
+                frameborder="no"
+                allow="autoplay"
+                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/umpg/whitney-houston-i-wanna-dance-with-somebody&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;show_teaser=false&amp;visual=false&amp;buying=false&amp;sharing=false&amp;download=false">
+        </iframe>
+    </div>
 
     <button id="btn-musica" onclick="toggleMusica()" aria-label="Controle de música">🔇</button>
 
@@ -541,12 +574,40 @@
         </div>
     </div>
 
+    <script src="https://w.soundcloud.com/player/api.js"></script>
     <script>
         const capa = document.getElementById('capa');
         const conteudo = document.getElementById('conteudo');
-        const musica = document.getElementById('musica');
         const btnMusica = document.getElementById('btn-musica');
+        let scWidget = null;
+        let widgetPronto = false;
         let tocando = false;
+
+        function initSoundCloud() {
+            const iframe = document.getElementById('sc-player');
+            scWidget = SC.Widget(iframe);
+
+            scWidget.bind(SC.Widget.Events.READY, () => {
+                widgetPronto = true;
+            });
+
+            scWidget.bind(SC.Widget.Events.FINISH, () => {
+                scWidget.seekTo(0);
+                if (tocando) scWidget.play();
+            });
+
+            scWidget.bind(SC.Widget.Events.PLAY, () => {
+                tocando = true;
+                btnMusica.textContent = '🔊';
+            });
+
+            scWidget.bind(SC.Widget.Events.PAUSE, () => {
+                tocando = false;
+                btnMusica.textContent = '🔇';
+            });
+        }
+
+        initSoundCloud();
 
         function abrirConvite() {
             capa.classList.add('abrindo');
@@ -556,31 +617,30 @@
             setTimeout(() => {
                 capa.style.display = 'none';
                 iniciarMusica();
-                lancarConfete();
+                iniciarConfeteContinuo();
             }, 800);
         }
 
         function iniciarMusica() {
-            musica.play().then(() => {
-                tocando = true;
-                btnMusica.textContent = '🔊';
-                btnMusica.classList.add('visivel');
-            }).catch(() => {
-                btnMusica.textContent = '🔇';
-                btnMusica.classList.add('visivel');
-            });
+            btnMusica.classList.add('visivel');
+
+            const tocar = () => {
+                scWidget.play();
+            };
+
+            if (widgetPronto) {
+                tocar();
+            } else {
+                scWidget.bind(SC.Widget.Events.READY, tocar);
+            }
         }
 
         function toggleMusica() {
+            if (!scWidget) return;
             if (tocando) {
-                musica.pause();
-                tocando = false;
-                btnMusica.textContent = '🔇';
+                scWidget.pause();
             } else {
-                musica.play().then(() => {
-                    tocando = true;
-                    btnMusica.textContent = '🔊';
-                }).catch(() => {});
+                scWidget.play();
             }
         }
 
@@ -611,25 +671,29 @@
             });
         }
 
-        function lancarConfete() {
+        function criarConfete() {
             const cores = ['#c9a84c', '#e8d5a3', '#f5c842', '#fff8e7', '#d4af37'];
+            const el = document.createElement('div');
+            const duracao = 2 + Math.random() * 3;
+            el.className = 'confete';
+            el.style.cssText = `
+                left: ${Math.random() * 100}vw;
+                top: -10px;
+                width: ${6 + Math.random() * 8}px;
+                height: ${6 + Math.random() * 8}px;
+                background: ${cores[Math.floor(Math.random() * cores.length)]};
+                border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+                animation-duration: ${duracao}s;
+            `;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), duracao * 1000 + 100);
+        }
+
+        function iniciarConfeteContinuo() {
             for (let i = 0; i < 40; i++) {
-                setTimeout(() => {
-                    const el = document.createElement('div');
-                    el.className = 'confete';
-                    el.style.cssText = `
-                        left: ${Math.random() * 100}vw;
-                        top: -10px;
-                        width: ${6 + Math.random() * 8}px;
-                        height: ${6 + Math.random() * 8}px;
-                        background: ${cores[Math.floor(Math.random() * cores.length)]};
-                        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
-                        animation-duration: ${2 + Math.random() * 2}s;
-                    `;
-                    document.body.appendChild(el);
-                    setTimeout(() => el.remove(), 4000);
-                }, i * 60);
+                setTimeout(criarConfete, i * 60);
             }
+            setInterval(criarConfete, 220);
         }
     </script>
 </body>
