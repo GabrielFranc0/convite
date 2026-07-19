@@ -687,15 +687,6 @@
             padding: 4px;
         }
 
-        #sc-player-container {
-            position: absolute;
-            left: -9999px;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-            opacity: 0;
-            pointer-events: none;
-        }
 
         .confete {
             position: fixed;
@@ -847,18 +838,9 @@
         </div>
     </div>
 
-    <!-- SOUNDCLOUD -->
-    <div id="sc-player-container" aria-hidden="true">
-        <iframe id="sc-player"
-                title="Música de fundo"
-                width="100%"
-                height="166"
-                scrolling="no"
-                frameborder="no"
-                allow="autoplay"
-                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/umpg/whitney-houston-i-wanna-dance-with-somebody&amp;auto_play=true&amp;hide_related=true&amp;show_comments=false&amp;show_user=false&amp;show_reposts=false&amp;show_teaser=false&amp;visual=false&amp;buying=false&amp;sharing=false&amp;download=false">
-        </iframe>
-    </div>
+    <audio id="bg-music" loop playsinline preload="auto" aria-hidden="true">
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
 
     <!-- MODAL PIX -->
     <div id="modal-overlay" onclick="fecharModal(event)">
@@ -877,28 +859,21 @@
         </div>
     </div>
 
-    <script src="https://w.soundcloud.com/player/api.js"></script>
     <script>
         const capa = document.getElementById('capa');
         const conteudo = document.getElementById('conteudo');
-        let scWidget = null;
-        let widgetPronto = false;
+        const musica = document.getElementById('bg-music');
+        let musicaIniciada = false;
 
-        function initSoundCloud() {
-            const iframe = document.getElementById('sc-player');
-            scWidget = SC.Widget(iframe);
+        musica.volume = 0.85;
 
-            scWidget.bind(SC.Widget.Events.READY, () => {
-                widgetPronto = true;
-            });
-
-            scWidget.bind(SC.Widget.Events.FINISH, () => {
-                scWidget.seekTo(0);
-                scWidget.play();
-            });
+        function iniciarMusica() {
+            if (musicaIniciada) return;
+            musicaIniciada = true;
+            musica.play().catch(() => {});
         }
 
-        initSoundCloud();
+        capa.addEventListener('touchstart', iniciarMusica, { passive: true });
 
         function abrirConvite() {
             iniciarMusica();
@@ -926,16 +901,6 @@
                 s.style.animationDelay = Math.random() * 3 + 's';
                 s.style.animationDuration = (2 + Math.random() * 2) + 's';
                 container.appendChild(s);
-            }
-        }
-
-        function iniciarMusica() {
-            const tocar = () => scWidget.play();
-
-            if (widgetPronto) {
-                tocar();
-            } else {
-                scWidget.bind(SC.Widget.Events.READY, tocar);
             }
         }
 
