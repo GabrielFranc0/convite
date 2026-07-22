@@ -30,4 +30,4 @@ https://wa.me/5511999999999?text=Mensagem+personalizada
 ## GitHub Pages
 
 O site é publicado automaticamente em:
-**https://gabrielfranco.github.io/convite/**
+**https://gabrielfranc0.github.io/convite/**
